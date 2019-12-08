@@ -1,4 +1,4 @@
-
+const { HttpException } = require('./http-exception')
 
 const catchError = async (ctx,next) => {
   try {
@@ -9,7 +9,7 @@ const catchError = async (ctx,next) => {
     if(!isHttpException) {
       throw error
     }
-
+    
     if(isHttpException) {
       ctx.status = error.code
       ctx.body = {
