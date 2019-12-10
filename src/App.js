@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import Qs from 'qs'
 
 class App extends React.Component {
   constructor(...arg) {
@@ -16,9 +17,9 @@ class App extends React.Component {
     this.getDataFromDb = this.getDataFromDb.bind(this)
     this.pushDataToDb = this.pushDataToDb.bind(this)
   }
-  getDataFromDb () {
+  getDataFromDb () { 
     axios.get('/getData').then(res=>{
-      if(res.data.error_code === 201) {
+      if(res) {
         this.setState({
           data: res.data.msg.data
         })
@@ -31,13 +32,12 @@ class App extends React.Component {
     while (currentIds.includes(idTobeAdded)) {
       ++idTobeAdded
     }
-    axios.post('/pushData', {
+    const fromData = Qs.stringify({
       id: idTobeAdded,
       message
-    }).then(res => {
-      console.log(res)
-    }).catch(err=>{
-      console.log(err)
+    })
+    axios.post('/pushData',fromData).then(res=>{
+
     })
   }
   componentDidMount() {
@@ -56,7 +56,7 @@ class App extends React.Component {
     return (
       <>
         <div>欢迎来到笔记本业务!</div>
-        <button onClick={this.pushDataToDb}>添加</button>
+        <button onClick={() => this.pushDataToDb(this.state.message)}>添加</button>
       </>
     )
   }
