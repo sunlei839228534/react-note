@@ -48,6 +48,7 @@ router.post('/pushData', async(ctx,next) => {
 
 router.delete('/deleteData', async(ctx,next) => {
   const { id } = ctx.request.body
+  console.log(id)
   if(!id) {
     throw new HttpException('请输入id', 10000, 400)
   }

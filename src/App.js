@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import Qs from 'qs'
+import { Button } from 'antd'
 
 class App extends React.Component {
   constructor(...arg) {
@@ -16,7 +17,21 @@ class App extends React.Component {
     }
     this.getDataFromDb = this.getDataFromDb.bind(this)
     this.pushDataToDb = this.pushDataToDb.bind(this)
+    this.deleteFromDb = this.deleteFromDb.bind(this)
   }
+  componentDidMount() {
+    if(!this.state.intervalIsSet) {
+      let interval = setInterval(this.getDataFromDb, 1000);
+      this.setState({ intervalIsSet: interval})
+    }
+  }
+  componentWillUnmount() {
+    if(this.state.intervalIsSet) {
+      clearInterval(this.state.intervalIsSet);
+      this.setState({ intervalIsSet: null});
+    }
+  }
+  //从数据库获取所有数据
   getDataFromDb () { 
     axios.get('/getData').then(res=>{
       if(res) {
@@ -26,6 +41,7 @@ class App extends React.Component {
       }
     })
   }
+  //推送数据到数据库
   pushDataToDb (message) {
     let currentIds = this.state.data.map(data => data.id)
     let idTobeAdded = 0
@@ -40,23 +56,35 @@ class App extends React.Component {
 
     })
   }
-  componentDidMount() {
-    if(!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval})
-    }
-  }
-  componentWillUnmount() {
-    if(this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null});
-    }
+  //根据id删除数据
+  deleteFromDb(idTodelete) {
+    let objIdToDelete = null;
+    this.state.data.forEach(item => {
+      if(item.id === idTodelete) {
+        objIdToDelete = item.id
+      }
+    })
+
+    axios.delete('/deleteData',{
+      data: {
+        id: objIdToDelete
+      }
+    })
   }
   render() {
     return (
       <>
-        <div>欢迎来到笔记本业务!</div>
-        <button onClick={() => this.pushDataToDb(this.state.message)}>添加</button>
+        <div>欢迎来到记事本app!</div>
+        {this.state.data.map((item) => {
+          return (
+            <div key={item.id}>
+              {item.message}
+            </div>
+          )
+        })}
+        <Button type='primary' onClick={()=>{
+          this.deleteFromDb(4)
+        }}>删除</Button>
       </>
     )
   }

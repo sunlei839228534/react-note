@@ -22,7 +22,8 @@ db.on('error', console.error.bind(console, "MongoDB connection error"))
 
 app.use(cors())
 app.use(catchError)
-app.use(bodyparser()) //post请求数据获取
+app.use(bodyparser({
+})) //post请求数据获取
 
 
 app.use(Data.routes(),Data.allowedMethods())
