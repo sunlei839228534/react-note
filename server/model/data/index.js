@@ -17,10 +17,10 @@ module.exports = {
     return data
   },
   async deleteData (id) {
-    const result = await Data.findOneAndDelete(id)
+    const result = await Data.findOneAndDelete({ id } )
     return result
   },
   async updateData (id, update) {
-    await Data.findOneAndUpdate(id, update)
+    await Data.findOneAndUpdate({ id }, update , {new: false})
   }
 }
