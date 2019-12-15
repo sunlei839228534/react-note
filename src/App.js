@@ -52,6 +52,10 @@ class App extends React.Component {
   //推送数据到数据库
   pushDataToDb (message) {
     let currentIds = this.state.data.map(data => data.id)
+    if(!message) {
+      alert("笔记内容不能为空!")
+      return false
+    }
     let idTobeAdded = 0
     while (currentIds.includes(idTobeAdded)) {
       ++idTobeAdded
@@ -65,9 +69,10 @@ class App extends React.Component {
     })
   }
   updateDb(idToUpdate, updateToApply) {
+    const Id = parseInt(idToUpdate)
     let objIdToUpdate = null;
     this.state.data.forEach(item => {
-      if(item.id == idToUpdate) {
+      if(item.id === Id) {
         objIdToUpdate = item.id
       }
     })
@@ -81,21 +86,20 @@ class App extends React.Component {
   }
   //根据id删除数据
   deleteFromDb(idTodelete) {
+    const Id = parseInt(idTodelete)
     let objIdToDelete = null;
     this.state.data.forEach(item => {
-      if(item.id == idTodelete) {
+      if(item.id === Id) {
         objIdToDelete = item.id
       }
     })
-    axios.delete('/deleteData',{
-      data: {
-        id: objIdToDelete
-      }
-    }).then(res=>{
-      this.getDataFromDb()
-    }).catch(err => {
-      this.getDataFromDb()
-    })
+      axios.delete('/deleteData',{
+        data: {
+          id: objIdToDelete
+        }
+      }).then(res=>{
+        this.getDataFromDb()
+      })
   }
   render() {
     const { data = [] } = this.state

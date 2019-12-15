@@ -24,7 +24,6 @@ router.post('/updateData', async (ctx,next) => {
     const update = Object.assign(result, {
       message
     })
-    console.log(update)
     await updateData(id, update)
     throw new Success({
       success: "true",
