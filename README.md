@@ -9,26 +9,26 @@
    ```  
   
    ## 项目介绍  
-    该项目主要是使用React(前端)+Koa(后端)框架作为技术栈,mongdb作为数据库.实现了新建,删除,更新笔记等功能.  
-    前端代码 => src目录下  
-    后端代码 => server目录下  
+   该项目主要是使用`React`(前端)+`Koa`(后端)框架作为技术栈,mongdb作为数据库.实现了新建,删除,更新笔记等功能.  
+   前端代码 => src目录下  
+   后端代码 => server目录下  
 
-    该项目前端使用的是AntDesign UI库,配置了config-overrides.js做按需加载  
-    后端对Koa进行了二次封装,核心代码  
-    ```javascript  
-      const catchError = async (ctx,next) => {  
-      try {  
-        await next()  
-      } catch (error) {  
-        // 一些error操作  
-      }  
-    ```  
-    Koa中比较核心的概念就是中间件,对于中间件的介绍可以浏览Koa的[官网](https://www.koajs.com.cn/)进行学习
-    Koa本身不在内核方法中绑定中间件,所以对开发者来说,舞台很大.  
-    在这个例子中,使用了try()catch()去捕获服务端代码中的错误,这样做的好处是
-    1.你的接口返回的数据格式统一
-    2.不用在每一个路由里去编写一大堆重复的代码,代码很清爽
-    3.无论是操作成功还是失败,你只需要编写返回状态的类,然后在相应的地方把类实例化,并传入参数就可以
+   该项目前端使用的是AntDesign UI库,配置了config-overrides.js做按需加载  
+   后端对Koa进行了二次封装,核心代码  
+   ```
+    const catchError = async (ctx,next) => {  
+    try {  
+      await next()  
+    } catch (error) {  
+      // 一些error操作  
+    }  
+   ```  
+   Koa中比较核心的概念就是中间件,对于中间件的介绍可以浏览Koa的[官网](https://www.koajs.com.cn/)
+   Koa本身不在内核方法中绑定中间件,所以对开发者来说,舞台很大.  
+   在这个例子中,使用了try()catch()去捕获服务端代码中的错误,这样做的好处是
+   1.你的接口返回的数据格式统一
+   2.不用在每一个路由里去编写一大堆重复的代码,代码很清爽
+   3.无论是操作成功还是失败,你只需要编写返回状态的类,然后在相应的地方把类实例化,并传入参数就可以
    ### 开发中遇到的一些问题
    axios.delete 后端无法接收数据  
    1.axios的delete方法不同于get,post方法,阅读过axios源码后我发现,axios的delete方法参数是(url,config).所以我屡次使用delete方法都无法将参数传递给后端,正确的格式应该是 axios.delete(url,data: {data}).这样后端就可以接受到传递的数据  
