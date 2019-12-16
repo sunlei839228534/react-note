@@ -6,8 +6,8 @@
      cd react-note
      npm install
      npm start
-   ```
-
+   ```  
+  
    ## 项目介绍  
     该项目主要是使用React(前端)+Koa(后端)框架作为技术栈,mongdb作为数据库.实现了新建,删除,更新笔记等功能.  
     前端代码 => src目录下  
