@@ -16,6 +16,14 @@ class Success extends HttpException {
   }
 }
 
+class Rejct extends HttpException {
+  constructor(msg, errorCode) {
+    super()
+    this.code = 401
+    this.msg = msg || 'reject'
+  }
+}
+
 module.exports = {
   HttpException,
   Success
