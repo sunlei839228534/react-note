@@ -6,6 +6,9 @@ const DataSchema = new Schema (
     id: {
       type: Number
     },
+    temp: {
+      type: String
+    },
     message: {
       type: String
     }
